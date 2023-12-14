@@ -13,9 +13,7 @@ function SingleTodo({ todoData }) {
     const iconClasses = 'cursor-pointer w-[15%] md:w-[7%]';
     
     useEffect(() => {
-        if (!inputDisabled) {
-            inputRef.current.focus();
-        }
+        !inputDisabled && inputRef.current.focus();
     }, [inputDisabled]);
     
     const handleOnBlur = () => {
@@ -25,7 +23,7 @@ function SingleTodo({ todoData }) {
             const updatedTodos = prev.map((t) => t.id === todo.id ? {...todo, todo: inputValue} : t);
             localStorage.setItem('todos', JSON.stringify(updatedTodos));
 
-            return prev
+            return updatedTodos;
         });
     }
 
