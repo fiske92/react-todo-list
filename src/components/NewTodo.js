@@ -15,14 +15,14 @@ function NewTodo({ setTodos }) {
         }
 
         setTodos((prev) => {
-            localStorage.setItem('todos', JSON.stringify([...prev, {...newTodo}]));
-
-            return [
-                {
-                    ...newTodo
-                },
+            const updatedTodos = [
+                newTodo,
                 ...prev
-            ]
+            ];
+
+            localStorage.setItem('todos', JSON.stringify(updatedTodos));
+
+            return updatedTodos;
         });
 
         setTodo('');

@@ -2,18 +2,17 @@ import { IoCheckmarkDoneSharp, IoClose } from "react-icons/io5";
 
 function CompleteTodo({ setTodosProps, iconClasses }) {
     const {todo, setTodos} = setTodosProps;
-    const handleOnClickRemove = () => {
-        setTodos((prev) => {
-            const newTodos = prev.filter(t => t.id !== todo.id);
-            localStorage.setItem('todos', JSON.stringify(newTodos));
 
-            return newTodos;
-        });
-    }
-
-    const handleOnClickCompleted = () => {
+    const handleOnClickAction = (actionType) => {
         setTodos((prev) => {
-            const updatedTodos = prev.map((t) => t.id === todo.id ? {...t, isCompleted: true} : t);
+            let updatedTodos;
+
+            if (actionType === 'completed') {
+                updatedTodos = prev.map((t) => t.id === todo.id ? {...t, isCompleted: true} : t);
+            } else if (actionType === 'remove') {
+                updatedTodos = prev.filter(t => t.id !== todo.id);
+            }
+
             localStorage.setItem('todos', JSON.stringify(updatedTodos));
 
             return updatedTodos;
@@ -21,8 +20,8 @@ function CompleteTodo({ setTodosProps, iconClasses }) {
     }
 
     return todo.isCompleted
-        ? <IoClose onClick={handleOnClickRemove} size={25} className={iconClasses} />
-        : <IoCheckmarkDoneSharp onClick={handleOnClickCompleted} size={25} className={iconClasses} />
+        ? <IoClose onClick={() => handleOnClickAction('remove')} size={25} className={iconClasses} />
+        : <IoCheckmarkDoneSharp onClick={() => handleOnClickAction('completed')} size={25} className={iconClasses} />
 }
 
 export default CompleteTodo;
